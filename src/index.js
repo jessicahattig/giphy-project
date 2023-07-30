@@ -54,9 +54,9 @@ function printElements(apiResponse) {
 }
 
 function printRandom(apiResponse) {
-  const gifImage = `<img src="${apiResponse.data.images.downsized.url}"`
+  const gifImageURL = apiResponse.data.images.downsized.url;
+  const gifImage = `<img src="${gifImageURL}" alt="Random GIF">`;
   document.getElementById("showResponse").innerHTML = gifImage;
-
 }
 
 function handleFormSubmission(event) {
