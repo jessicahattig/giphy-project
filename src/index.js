@@ -29,8 +29,10 @@ function printError(request, apiResponse, searchValue) {
 }
 
 function printElements(apiResponse) {
-  const gifImageURL = apiResponse.data[0].images.original.url;
-  const gifImage = `<img src="${gifImageURL}" alt="GIF">`
+  const gifImage = apiResponse.data.map((gifData) => {
+    const gifImageURL = gifData.images.original.url;
+    return `<img src="${gifImageURL}" alt="GIF">`
+  });
   document.getElementById("showResponse").innerHTML = gifImage;
 }
 
