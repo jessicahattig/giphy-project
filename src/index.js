@@ -21,6 +21,23 @@ function findGifs(searchValue) {
   request.send();
 }
 
+function showRandom() {
+  let request = new XMLHttpRequest();
+  const url = `https://api.giphy.com/v1/gifs/random?api_key=${process.env.API_KEY}`
+  request.addEventListener("loadend", function() {
+    const response = JSON.parse(this.responseText);
+    console.log(response);
+    if (this.status === 200) {
+      printRandom(response);
+    } else {
+      printError(this, response);
+    }
+  });
+
+  request.open("GET", url, true);
+  request.send();
+}
+
 
 // UI Logic
 
@@ -36,6 +53,12 @@ function printElements(apiResponse) {
   document.getElementById("showResponse").innerHTML = gifImage;
 }
 
+function printRandom(apiResponse) {
+  const gifImage = `<img src="${apiResponse.data.images.downsized.url}"`
+  document.getElementById("showResponse").innerHTML = gifImage;
+
+}
+
 function handleFormSubmission(event) {
   event.preventDefault();
   const searchValue = document.querySelector('#gif-search').value;
@@ -43,6 +66,9 @@ function handleFormSubmission(event) {
   findGifs(searchValue);
 }
 
+
+
 window.addEventListener("load", function() {
   document.querySelector('form').addEventListener("submit", handleFormSubmission);
+  document.getElementById('random-btn').addEventListener("click", showRandom);
 });
