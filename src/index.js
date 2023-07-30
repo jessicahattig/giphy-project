@@ -6,14 +6,14 @@ import './css/styles.css';
 
 function findGifs(searchValue) {
   let request = new XMLHttpRequest();
-  const url = `https://api.giphy.com/v1/gifs/search?api_key=${process.env.API_KEY}&q=${searchValue}&limit=25&offset=0&lang=en&bundle=messaging_non_clips`
+  const url = `https://api.giphy.com/v1/gifs/search?api_key=${process.env.API_KEY}&q=${searchValue}&limit=25&offset=0&lang=en&bundle=messaging_non_clips`;
   request.addEventListener("loadend", function() {
     const response = JSON.parse(this.responseText);
     console.log(response);
     if (this.status === 200) {
-      printElements(response)
+      printElements(response);
     } else {
-      printError(this, response)
+      printError(this, response);
     }
   });
 
@@ -24,7 +24,23 @@ function findGifs(searchValue) {
 
 // UI Logic
 
-function printElements(apiResponse) {
-  document.getElementById
+function printError(request, apiResponse, searchValue) {
+  document.querySelector('#showResponse').innerText = `There was an error searching for ${searchValue}: ${request.status} ${request.statusText}: ${apiResponse.message}`;
 }
 
+function printElements(apiResponse) {
+  const gifImageURL = apiResponse.data[0].images.original.url;
+  const gifImage = `<img src="${gifImageURL}" alt="GIF">`
+  document.getElementById("showResponse").innerHTML = gifImage;
+}
+
+function handleFormSubmission(event) {
+  event.preventDefault();
+  const searchValue = document.querySelector('#gif-search').value;
+  document.querySelector('#gif-search').value = null;
+  findGifs(searchValue);
+}
+
+window.addEventListener("load", function() {
+  document.querySelector('form').addEventListener("submit", handleFormSubmission);
+});
