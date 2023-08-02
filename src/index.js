@@ -1,25 +1,23 @@
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/styles.css';
+import Giphy from './giphy.js';
 
 // Business Logic
 
 function findGifs(searchValue) {
-  let request = new XMLHttpRequest();
-  const url = `https://api.giphy.com/v1/gifs/search?api_key=${process.env.API_KEY}&q=${searchValue}&limit=25&offset=0&lang=en&bundle=messaging_non_clips`;
-  request.addEventListener("loadend", function () {
-    const response = JSON.parse(this.responseText);
-    console.log(response);
-    if (this.status === 200) {
-      printElements(response);
-    } else {
-      printError(this, response);
-    }
+  let promise = Giphy.findGifs(searchValue);
+  promise.then(function (data) {
+    const response = data.responseText;
+    const searchValue = data.searchValue;
+    printElements(response, searchValue);
+    findGifs(searchValue);
+  }, function (response) {
+    printError(this, response, searchValue);
   });
-
-  request.open("GET", url, true);
-  request.send();
 }
+
+//next, showRandom needs to be converted to a static method and use promises.
 
 function showRandom() {
   let request = new XMLHttpRequest();
