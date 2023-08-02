@@ -7,7 +7,7 @@ import './css/styles.css';
 function findGifs(searchValue) {
   let request = new XMLHttpRequest();
   const url = `https://api.giphy.com/v1/gifs/search?api_key=${process.env.API_KEY}&q=${searchValue}&limit=25&offset=0&lang=en&bundle=messaging_non_clips`;
-  request.addEventListener("loadend", function() {
+  request.addEventListener("loadend", function () {
     const response = JSON.parse(this.responseText);
     console.log(response);
     if (this.status === 200) {
@@ -24,7 +24,7 @@ function findGifs(searchValue) {
 function showRandom() {
   let request = new XMLHttpRequest();
   const url = `https://api.giphy.com/v1/gifs/random?api_key=${process.env.API_KEY}`
-  request.addEventListener("loadend", function() {
+  request.addEventListener("loadend", function () {
     const response = JSON.parse(this.responseText);
     console.log(response);
     if (this.status === 200) {
@@ -68,7 +68,7 @@ function handleFormSubmission(event) {
 
 
 
-window.addEventListener("load", function() {
+window.addEventListener("load", function () {
   document.querySelector('form').addEventListener("submit", handleFormSubmission);
   document.getElementById('random-btn').addEventListener("click", showRandom);
 });
