@@ -5,9 +5,8 @@ export default class Giphy {
       const url = `https://api.giphy.com/v1/gifs/search?api_key=${process.env.API_KEY}&q=${searchValue}&limit=25&offset=0&lang=en&bundle=messaging_non_clips`;
       request.addEventListener("loadend", function () {
         const response = JSON.parse(this.responseText);
-        console.log(response);
         if (this.status === 200) {
-          resolve({response, searchValue});
+          resolve(response);
         } else {
           reject([this, response, searchValue]);
         }

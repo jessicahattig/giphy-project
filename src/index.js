@@ -8,9 +8,9 @@ import Giphy from './giphy.js';
 function findGifs(searchValue) {
   let promise = Giphy.findGifs(searchValue);
   promise.then(function (data) {
-    const response = data.responseText;
+    const response = data.response;
     const searchValue = data.searchValue;
-    printElements(response, searchValue);
+    printElements(response);
     findGifs(searchValue);
   }, function (response) {
     printError(this, response, searchValue);
@@ -38,6 +38,7 @@ function printElements(apiResponse) {
     const gifImageURL = gifData.images.original.url;
     return `<img src="${gifImageURL}" alt="GIF">`
   });
+  console.log(gifImage);
   document.getElementById("showResponse").innerHTML = gifImage;
 }
 
