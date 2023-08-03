@@ -17,23 +17,13 @@ function findGifs(searchValue) {
   });
 }
 
-//next, showRandom needs to be converted to a static method and use promises.
-
 function showRandom() {
-  let request = new XMLHttpRequest();
-  const url = `https://api.giphy.com/v1/gifs/random?api_key=${process.env.API_KEY}`
-  request.addEventListener("loadend", function () {
-    const response = JSON.parse(this.responseText);
-    console.log(response);
-    if (this.status === 200) {
-      printRandom(response);
-    } else {
-      printError(this, response);
-    }
+  let promise = Giphy.showRandom();
+  promise.then(function(response) {
+    printRandom(response);
+  }, function(response) {
+    printError(response)
   });
-
-  request.open("GET", url, true);
-  request.send();
 }
 
 

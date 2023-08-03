@@ -7,14 +7,31 @@ export default class Giphy {
         const response = JSON.parse(this.responseText);
         console.log(response);
         if (this.status === 200) {
-          resolve(response, searchValue);
+          resolve({response, searchValue});
         } else {
-          reject(this, response, searchValue);
+          reject([this, response, searchValue]);
         }
       });
 
       request.open("GET", url, true);
       request.send();
     })
+  }
+
+  static showRandom() {
+    return new Promise(function(resolve, reject) {
+      let request = new XMLHttpRequest();
+      const url = `https://api.giphy.com/v1/gifs/random?api_key=${process.env.API_KEY}`
+    request.addEventListener("loadend", function () {
+      const response = JSON.parse(this.responseText);
+      if (this.status === 200) {
+        resolve(response);
+      } else {
+        reject([this, response]);
+      } 
+    });
+    request.open("GET", url, true);
+    request.send();
+  });
   }
 }
